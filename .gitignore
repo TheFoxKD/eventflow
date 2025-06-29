@@ -15,7 +15,6 @@ go.work
 
 # Binary output directories
 /bin/
-/pkg/
 
 # IDE specific
 .idea/
