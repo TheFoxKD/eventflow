@@ -1,0 +1,56 @@
+# Go specific
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+
+# Go build and test cache
+/vendor/
+/Godeps/
+.go/
+
+# Binary output directories
+/bin/
+/pkg/
+
+# IDE specific
+.idea/
+.vscode/
+.cursor/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+.project
+.settings
+.classpath
+*.iml
+*.iws
+.fleet/
+.goland/
+
+# OS specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Debug files
+debug/
+debug.test
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Log files
+*.log
+logs/
