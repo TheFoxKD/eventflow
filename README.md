@@ -85,21 +85,34 @@ graph LR
 
 ## 🐳 Quick Start with Docker
 
+Clone repository:
+
 ```bash
-# Clone repository
 git clone https://github.com/TheFoxKD/eventflow.git
 cd eventflow
+```
 
-# Copy environment file
+Copy environment file:
+
+```bash
 cp .env.example .env
+```
 
-# Start all services
+Start all services:
+
+```bash
 make docker-up
+```
 
-# Run database migrations
+Run database migrations:
+
+```bash
 make migrate-up
+```
 
-# Check health
+Check health:
+
+```bash
 curl http://127.0.0.1:8080/health
 ```
 
@@ -170,33 +183,53 @@ curl -X DELETE http://127.0.0.1:8080/subscriptions/tech \
 
 ### Local Development
 
+Install dependencies:
+
 ```bash
-# Install dependencies
 go mod download
+```
 
-# Run tests
+Run tests:
+
+```bash
 make test
+```
 
-# Run linter
+Run linter:
+
+```bash
 make lint
+```
 
-# Build application
+Build application:
+
+```bash
 make build
+```
 
-# Run locally (requires external services)
+Run locally (requires external services):
+
+```bash
 make run
 ```
 
 ### Database Migrations
 
+Create new migration:
+
 ```bash
-# Create new migration
 make migrate-create name=add_events_table
+```
 
-# Apply migrations
+Apply migrations:
+
+```bash
 make migrate-up
+```
 
-# Rollback migration
+Rollback migration:
+
+```bash
 make migrate-down
 ```
 
@@ -215,17 +248,27 @@ Environment variables (see `.env.example`):
 
 ## 🧪 Testing
 
+Run all tests:
+
 ```bash
-# Run all tests
 make test
+```
 
-# Run with coverage
+Run with coverage:
+
+```bash
 make test-coverage
+```
 
-# Run integration tests
+Run integration tests:
+
+```bash
 make test-integration
+```
 
-# Run specific package tests
+Run specific package tests:
+
+```bash
 go test ./internal/usecase/event -v
 ```
 
@@ -233,21 +276,29 @@ go test ./internal/usecase/event -v
 
 ### Docker
 
-```bash
-# Build image
-docker build -t eventflow:latest .
+Build image:
 
-# Run container
+```bash
+docker build -t eventflow:latest .
+```
+
+Run container:
+
+```bash
 docker run -p 8080:8080 --env-file .env eventflow:latest
 ```
 
 ### Kubernetes
 
-```bash
-# Deploy to KIND cluster
-make k8s-deploy
+Deploy to KIND cluster:
 
-# Port forward for testing
+```bash
+make k8s-deploy
+```
+
+Port forward for testing:
+
+```bash
 kubectl port-forward svc/eventflow 8080:80
 ```
 
