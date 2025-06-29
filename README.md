@@ -120,18 +120,25 @@ curl http://127.0.0.1:8080/health
 
 ### Authentication
 
+Register new user:
+
 ```bash
-# Register
 curl -X POST http://127.0.0.1:8080/auth/register \
   -H "Content-Type: application/json" \
   -d '{"email":"user@example.com","password":"password123"}'
+```
 
-# Login
+Login:
+
+```bash
 curl -X POST http://127.0.0.1:8080/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"user@example.com","password":"password123"}'
+```
 
-# Refresh token
+Refresh token:
+
+```bash
 curl -X POST http://127.0.0.1:8080/auth/refresh \
   -H "Content-Type: application/json" \
   -d '{"refresh_token":"your_refresh_token"}'
@@ -139,36 +146,50 @@ curl -X POST http://127.0.0.1:8080/auth/refresh \
 
 ### Events
 
+Create new event:
+
 ```bash
-# Create event
 curl -X POST http://127.0.0.1:8080/events \
   -H "Authorization: Bearer $JWT_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"title":"Tech Meetup","description":"Go microservices discussion","category":"tech"}'
+```
 
-# Get events
+List events with pagination:
+
+```bash
 curl -H "Authorization: Bearer $JWT_TOKEN" \
   http://127.0.0.1:8080/events?page=1&limit=10
+```
 
-# Get event by ID
+Get event by ID:
+
+```bash
 curl -H "Authorization: Bearer $JWT_TOKEN" \
   http://127.0.0.1:8080/events/{event_id}
 ```
 
 ### Subscriptions
 
+Subscribe to category:
+
 ```bash
-# Subscribe to category
 curl -X POST http://127.0.0.1:8080/subscriptions \
   -H "Authorization: Bearer $JWT_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"category":"tech"}'
+```
 
-# Get user subscriptions
+List user subscriptions:
+
+```bash
 curl -H "Authorization: Bearer $JWT_TOKEN" \
   http://127.0.0.1:8080/subscriptions
+```
 
-# Unsubscribe
+Unsubscribe from category:
+
+```bash
 curl -X DELETE http://127.0.0.1:8080/subscriptions/tech \
   -H "Authorization: Bearer $JWT_TOKEN"
 ```
