@@ -1,0 +1,130 @@
+version: "2"
+linters:
+  default: standard
+
+  enable:
+    # Main
+    - errcheck      # Mandatory for Go - unhandled errors
+    - govet         # Built-in Go analyzer
+    - staticcheck   # Most powerful static analyzer
+    - unused        # Unused code
+    - ineffassign   # Unused assignments
+
+    # Security (important for API)
+    - gosec         # Security issues
+
+    # Quality code
+    - gocyclo       # Function complexity
+    - goconst       # Repeated constants
+    - misspell      # Spelling errors
+    - unconvert     # Unnecessary type conversions
+    - unparam       # Unused parameters
+
+    # Clean Architecture specific
+    - depguard      # Dependency control between layers
+    - interfacebloat # Too large interfaces
+
+  settings:
+    # Settings for Clean Architecture
+    depguard:
+      rules:
+        main:
+          list-mode: strict
+          files: ["!**/*_test.go"]
+          allow:
+            - $gostd
+            - github.com/thefoxkd/eventflow/internal/entity
+            - github.com/thefoxkd/eventflow/internal/usecase
+            - github.com/thefoxkd/eventflow/internal/repository
+
+        # Usecase should not depend on delivery
+        usecase:
+          files: ["internal/usecase/**/*.go"]
+          deny:
+            - pkg: github.com/thefoxkd/eventflow/internal/delivery
+              desc: "usecase layer cannot depend on delivery layer"
+
+    # Function complexity
+    gocyclo:
+      min-complexity: 15  # Moderately strict
+
+    # Security
+    gosec:
+      excludes:
+        - G104  # Allow checking errors in defer
+      confidence: medium
+      severity: medium
+
+  # Exceptions
+  exclusions:
+    generated: strict
+
+    presets:
+      - comments
+      - std-error-handling
+
+    rules:
+      # Tests have more flexible rules
+      - path: '_test\.go'
+        linters:
+          - gocyclo      # Tests can be complex
+          - errcheck     # In tests, we can ignore some errors
+          - gosec        # In tests, we can use unsafe things
+
+      # main.go can be complex (DI setup)
+      - path: 'cmd/api/main\.go'
+        linters: [gocyclo, funlen]
+
+      # Migrations can have long SQL strings
+      - path: 'migrations/.*\.sql'
+        linters: [lll]
+
+# Formatters
+formatters:
+  enable:
+    - goimports    # Import management
+    - gofumpt      # Strict formatting
+
+  settings:
+    goimports:
+      local-prefixes:
+        - github.com/thefoxkd/eventflow
+
+# Run settings
+run:
+  timeout: 5m
+  tests: true
+  concurrency: 4
+  go: '1.24'
+  relative-path-mode: gomod
+
+# Issues management
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+  new: false           # While false, can be enabled for CI
+  fix: false           # Auto-fix only manually
+
+# Output results
+output:
+  formats:
+    text:
+      print-linter-name: true
+      print-issued-lines: true
+      colors: true
+
+  sort-order: [linter, severity, file]
+  show-stats: true
+
+# Error severity
+severity:
+  default: error
+
+  rules:
+    # Spelling errors - warnings
+    - linters: [misspell]
+      severity: warning
+
+    # Security - critical
+    - linters: [gosec]
+      severity: error
