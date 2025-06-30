@@ -66,3 +66,12 @@ clean:
 	@echo "Cleaning build artifacts..."
 	rm -rf $(BIN_DIR)
 	go clean
+
+# Format code
+fmt:
+	@echo "Formatting code..."
+	go fmt ./...
+
+# Pre-commit hook
+pre-commit: fmt lint test build
+	@echo "✅ All EventFlow quality gates passed!"
