@@ -32,10 +32,14 @@ linters:
           list-mode: strict
           files: ["!**/*_test.go"]
           allow:
+            # $gostd allows all Go standard library packages (fmt, time, context, etc.)
             - $gostd
+            # Internal project packages
             - github.com/thefoxkd/eventflow/internal/entity
             - github.com/thefoxkd/eventflow/internal/usecase
             - github.com/thefoxkd/eventflow/internal/repository
+            # External dependencies
+            - github.com/google/uuid  # UUID handling
 
         # Usecase should not depend on delivery
         usecase:

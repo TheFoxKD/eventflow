@@ -1,0 +1,3 @@
+package entity
+
+const NilValue = "🤷‍♂️"
