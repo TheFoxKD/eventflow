@@ -13,6 +13,8 @@ help:
 	@echo "  build      - Build the application"
 	@echo "  test       - Run tests"
 	@echo "  lint       - Run linter"
+	@echo "  fmt        - Format code"
+	@echo "  pre-commit - Run all quality gates"
 	@echo "  run        - Run the application"
 	@echo "  docker-up  - Start Docker Compose services"
 	@echo "  docker-down- Stop Docker Compose services"
@@ -35,6 +37,16 @@ test:
 lint:
 	@echo "Running linter..."
 	golangci-lint run
+
+# Format code
+fmt:
+	@echo "Formatting code..."
+	go fmt ./...
+
+# Pre-commit hook
+pre-commit: fmt lint test build
+	@echo "✅ All EventFlow quality gates passed!"
+
 
 # Run application
 run:
@@ -66,12 +78,3 @@ clean:
 	@echo "Cleaning build artifacts..."
 	rm -rf $(BIN_DIR)
 	go clean
-
-# Format code
-fmt:
-	@echo "Formatting code..."
-	go fmt ./...
-
-# Pre-commit hook
-pre-commit: fmt lint test build
-	@echo "✅ All EventFlow quality gates passed!"
